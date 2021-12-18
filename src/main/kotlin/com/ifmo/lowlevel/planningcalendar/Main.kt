@@ -1,5 +1,10 @@
 package com.ifmo.lowlevel.planningcalendar
 
-fun main(arg : String) {
-    println("hello init")
+import mu.KotlinLogging
+
+fun main() {
+    val logger = KotlinLogging.logger {}
+    logger.debug { "Application starting" }
+    Application.run()
+    logger.debug { "Application finished" }
 }

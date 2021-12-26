@@ -8,14 +8,8 @@ import kotlin.test.assertEquals
 class QueryUtilsTest{
 
     @Test
-    fun conditionSeparatorTest(){
-        val listOf = listOf("a", "b", "c")
-        assertEquals("a AND b AND c", listOf.joinToString(separator = " AND ") )
-    }
-
-    @Test
-    fun selectGenericTest(){
-        val select = QueryUtils.select(Plan::class, "*", mapOf(Pair("goal", "goal")))
+    fun selectQueryUtilsTest(){
+        val select = QueryUtils.selectWithConditions(Plan::class, "*", mapOf(Pair("goal", "goal")))
         assertEquals("SELECT * FROM plan WHERE goal=goal;", select)
     }
 }

@@ -1,5 +1,6 @@
 package com.ifmo.lowlevel.planningcalendar.database.connection
 
+import mu.KotlinLogging
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.SQLException
@@ -11,6 +12,8 @@ class ConnectionPoolImpl private constructor(list: MutableList<Connection?>) : C
 
 
    companion object {
+       private val logger = KotlinLogging.logger {}
+
        private const val INITIAL_POOL_SIZE = 10
 
        @Throws(SQLException::class)
@@ -29,6 +32,7 @@ class ConnectionPoolImpl private constructor(list: MutableList<Connection?>) : C
            for (i in 0 until INITIAL_POOL_SIZE) {
                pool.add(createConnection(url, user, password))
            }
+           logger.trace { "Connection pool initialized" }
            return ConnectionPoolImpl(pool)
        }
    }

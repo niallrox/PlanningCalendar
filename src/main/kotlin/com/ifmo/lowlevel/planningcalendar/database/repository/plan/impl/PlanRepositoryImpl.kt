@@ -1,7 +1,7 @@
-package com.ifmo.lowlevel.planningcalendar.database.repository.impl
+package com.ifmo.lowlevel.planningcalendar.database.repository.plan.impl
 
 import com.ifmo.lowlevel.planningcalendar.database.connection.ConnectionPoolHandler
-import com.ifmo.lowlevel.planningcalendar.database.repository.ifc.PlanRepository
+import com.ifmo.lowlevel.planningcalendar.database.repository.plan.ifc.PlanRepository
 import com.ifmo.lowlevel.planningcalendar.model.Plan
 import com.ifmo.lowlevel.planningcalendar.model.PlanState
 import com.ifmo.lowlevel.planningcalendar.utils.QueryUtils
@@ -10,21 +10,21 @@ import java.sql.*
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
-class PlanRepositoryImpl : PlanRepository {
+object PlanRepositoryImpl : PlanRepository {
 
     private val logger = KotlinLogging.logger {}
 
     private val connectionPool = ConnectionPoolHandler.getPool()
 
-    override fun findByDay(goal: String): List<Plan> {
+    override fun findByDay(deadline: LocalDateTime): List<Plan> {
         val list = ArrayList<Plan>()
         val connection = connectionPool!!.getConnection()
         try {
             val statement = connection!!.createStatement()
             val set = statement.executeQuery(
-                QueryUtils.select(
+                QueryUtils.selectWithConditions(
                     Plan::class, "*",
-                    mapOf(Pair("goal", goal), Pair("plan_state", PlanState.DAY.name))
+                    mapOf(Pair("deadline", deadline.toString()) , Pair("plan_state", PlanState.DAY.name))
                 )
             )
             while (set.next()) {
@@ -32,20 +32,21 @@ class PlanRepositoryImpl : PlanRepository {
             }
             connectionPool.releaseConnection(connection)
         } catch (e: SQLException) {
-            logger.error { String.format("Something went wrong with statement. Error: %s ", e) }
+            logger.error { "Something went wrong with statement. Error: $e" }
         }
+        logger.info { "Find ${list.size} Plans by $deadline" }
         return list
     }
 
-    override fun findByMonth(goal: String): List<Plan> {
+    override fun findByMonth(deadline: LocalDateTime): List<Plan> {
         val list = ArrayList<Plan>()
         val connection = connectionPool!!.getConnection()
         try {
             val statement = connection!!.createStatement()
             val set = statement.executeQuery(
-                QueryUtils.select(
+                QueryUtils.selectWithConditions(
                     Plan::class, "*",
-                    mapOf(Pair("goal", goal), Pair("plan_state", PlanState.MONTH.name))
+                    mapOf(Pair("deadline", deadline.toString()), Pair("plan_state", PlanState.MONTH.name))
                 )
             )
             while (set.next()) {
@@ -53,20 +54,21 @@ class PlanRepositoryImpl : PlanRepository {
             }
             connectionPool.releaseConnection(connection)
         } catch (e: SQLException) {
-            logger.error { String.format("Something went wrong with statement. Error: %s ", e) }
+            logger.error { "Something went wrong with statement. Error: $e" }
         }
+        logger.info { "Find ${list.size} Plans by $deadline" }
         return list
     }
 
-    override fun findByYear(goal: String): List<Plan> {
+    override fun findByYear(deadline: LocalDateTime): List<Plan> {
         val list = ArrayList<Plan>()
         val connection = connectionPool!!.getConnection()
         try {
             val statement = connection!!.createStatement()
             val set = statement.executeQuery(
-                QueryUtils.select(
+                QueryUtils.selectWithConditions(
                     Plan::class, "*",
-                    mapOf(Pair("goal", goal), Pair("plan_state", PlanState.YEAR.name))
+                    mapOf(Pair("deadline", deadline.toString()), Pair("plan_state", PlanState.YEAR.name))
                 )
             )
             while (set.next()) {
@@ -74,8 +76,26 @@ class PlanRepositoryImpl : PlanRepository {
             }
             connectionPool.releaseConnection(connection)
         } catch (e: SQLException) {
-            logger.error { String.format("Something went wrong with statement. Error: %s ", e) }
+            logger.error { "Something went wrong with statement. Error: $e" }
         }
+        logger.info { "Find ${list.size} Plans by $deadline" }
+        return list
+    }
+
+    override fun findAll(): List<Plan> {
+        val list = ArrayList<Plan>()
+        val connection = connectionPool!!.getConnection()
+        try {
+            val statement = connection!!.createStatement()
+            val set = statement.executeQuery(QueryUtils.select(Plan::class, "*"))
+            while (set.next()) {
+                list.add(getPlanFromResultSet(set))
+            }
+            connectionPool.releaseConnection(connection)
+        } catch (e: SQLException) {
+            logger.error { "Something went wrong with statement. Error: $e" }
+        }
+        logger.info { "Find ${list.size} Plans" }
         return list
     }
 
@@ -87,9 +107,10 @@ class PlanRepositoryImpl : PlanRepository {
             preparedStatement.executeUpdate()
             connection.commit()
         } catch (e: SQLException) {
-            logger.error { String.format("Something went wrong with statement. Error: %s ", e) }
+            logger.error { "Something went wrong with statement. Error: $e" }
             connection.rollback()
         }
+        logger.info { "Inserted Plan with id ${plan.getGoal()}" }
         connectionPool.releaseConnection(connection)
     }
 
@@ -102,9 +123,10 @@ class PlanRepositoryImpl : PlanRepository {
             preparedStatement.executeUpdate()
             connection.commit()
         } catch (e: SQLException) {
-            logger.error { String.format("Something went wrong with statement. Error: %s ", e) }
+            logger.error { "Something went wrong with statement. Error: $e" }
             connection.rollback()
         }
+        logger.info { "Updated Plan with id $goal" }
         connectionPool.releaseConnection(connection)
     }
 
@@ -116,9 +138,10 @@ class PlanRepositoryImpl : PlanRepository {
             statement.executeQuery(QueryUtils.delete(Plan::class, mapOf(Pair("goal", goal))))
             connection.commit()
         } catch (e: SQLException) {
-            logger.error { String.format("Something went wrong with statement. Error: %s ", e) }
+            logger.error { "Something went wrong with statement. Error: $e" }
             connection.rollback()
         }
+        logger.info { "Deleted Plan with id $goal" }
         connectionPool.releaseConnection(connection)
     }
 

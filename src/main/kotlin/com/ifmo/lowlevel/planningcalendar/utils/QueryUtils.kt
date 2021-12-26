@@ -13,8 +13,17 @@ object QueryUtils {
         return "UPDATE ${clazz.simpleName!!.lowercase()} SET ${getFieldsForUpdate(clazz)} WHERE $conditionField = ?;"
     }
 
-    fun <E : Any> select(clazz: KClass<E>, fieldsToFind: String, conditions: Map<String, String>): String {
+    fun <E : Any> selectWithConditions(clazz: KClass<E>, fieldsToFind: String, conditions: Map<String, String>): String {
         return "SELECT $fieldsToFind FROM ${clazz.simpleName!!.lowercase()} WHERE ${conditionFromMap(conditions)};"
+    }
+
+    fun <E : Any> select(clazz: KClass<E>, fieldsToFind: String): String {
+        return "SELECT $fieldsToFind FROM ${clazz.simpleName!!.lowercase()};"
+    }
+
+    fun <E : Any> exists(clazz: KClass<E>, conditions: Map<String, String>): String {
+        return "SELECT EXISTS " +
+                "(SELECT * FROM ${clazz.simpleName!!.lowercase()} WHERE ${conditionFromMap(conditions)}) AS rows;"
     }
 
     fun <E : Any> delete(clazz: KClass<E>, conditions: Map<String, String>): String {

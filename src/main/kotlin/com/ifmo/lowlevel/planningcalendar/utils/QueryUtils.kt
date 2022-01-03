@@ -23,7 +23,7 @@ object QueryUtils {
 
     fun <E : Any> exists(clazz: KClass<E>, conditions: Map<String, String>): String {
         return "SELECT EXISTS " +
-                "(SELECT * FROM ${clazz.simpleName!!.lowercase()} WHERE ${conditionFromMap(conditions)}) AS rows;"
+                "(SELECT * FROM ${clazz.simpleName!!.lowercase()} WHERE ${conditionFromMap(conditions)}) AS 'rows';"
     }
 
     fun <E : Any> delete(clazz: KClass<E>, conditions: Map<String, String>): String {
@@ -36,16 +36,16 @@ object QueryUtils {
     }
 
     private fun conditionFromMap(conditions: Map<String, String>): String {
-        val conditionsList = conditions.entries.stream().map { (k, v) -> "$k=${v}" }.collect(Collectors.toList())
+        val conditionsList = conditions.entries.stream().map { (k, v) -> "$k=${"'$v'"}" }.collect(Collectors.toList())
         return conditionsList.joinToString(separator = " AND ")
     }
 
     private fun <E : Any> getQuestsFromClass(clazz: KClass<E>): String {
         val size = Class.forName(clazz.qualifiedName).declaredFields.size
         val quests = StringBuilder()
-        for (i in 1 until size) {
+        for (i in 0 until size) {
             quests.append("?, ")
         }
-        return quests.toString()
+        return quests.toString().substringBeforeLast(", ")
     }
 }

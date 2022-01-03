@@ -11,8 +11,7 @@ class UserServiceImpl(private val userRepository: UserRepository) : UserService 
 
     override fun login(login: String, password: String): Boolean {
         if (Objects.nonNull(login) && Objects.nonNull(password)) {
-            val hash = BCrypt.withDefaults().hashToString(SysConsts.HASH_COST_FACTOR, password.toCharArray())
-            return userRepository.login(login, hash)
+            return BCrypt.verifyer().verify(password.toCharArray(), userRepository.hashByLogin(login)).verified
         } else {
             throw IllegalArgumentException("login and password can't be null")
         }

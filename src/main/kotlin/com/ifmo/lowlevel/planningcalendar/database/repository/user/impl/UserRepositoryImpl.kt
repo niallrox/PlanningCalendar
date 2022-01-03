@@ -18,22 +18,22 @@ object UserRepositoryImpl : UserRepository {
 
     private val connectionPool = ConnectionPoolHandler.getPool()
 
-    override fun login(login: String, password: String): Boolean {
+    override fun hashByLogin(login: String): String {
         val connection = connectionPool!!.getConnection()
         return try {
             val statement = connection!!.createStatement()
             val set = statement.executeQuery(
-                QueryUtils.exists(
+                QueryUtils.select(
                     User::class,
-                    mapOf(Pair("login", login), Pair("password", password))
+                    "password"
                 )
             )
             set.next()
             connectionPool.releaseConnection(connection)
-            set.getInt("rows") > 0
+            set.getString("password")
         } catch (e: SQLException) {
             logger.error { "Something went wrong with statement. Error: $e" }
-            false
+            ""
         }
     }
 

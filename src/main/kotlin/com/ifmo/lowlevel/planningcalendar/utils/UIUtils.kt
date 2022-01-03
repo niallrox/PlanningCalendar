@@ -8,7 +8,12 @@ object UIUtils {
 
     fun viewDayPlans(plans: List<Plan>) {
         val alert = Alert(Alert.AlertType.CONFIRMATION)
-        alert.contentText = plans.toString()
+        if (plans.isNotEmpty()) {
+            alert.headerText = "Ваши планы на ${plans.first().getDeadline()!!.toLocalDate()}"
+            alert.contentText = plans.toString()
+        } else {
+            alert.contentText = "На этот день планов нет"
+        }
         alert.show()
     }
 

@@ -5,4 +5,5 @@ object SysConsts {
     const val DEFAULT_ORDERING = "startTime"
     const val DATE_FORMAT = "yyyy-MM"
     const val HASH_COST_FACTOR = 12
+    const val APPLICATION_NAME = "PlanningCalendar"
 }

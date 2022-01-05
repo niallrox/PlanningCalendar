@@ -2,7 +2,7 @@ package com.ifmo.lowlevel.planningcalendar
 
 import com.ifmo.lowlevel.planningcalendar.database.repository.plan.impl.PlanRepositoryImpl
 import com.ifmo.lowlevel.planningcalendar.database.repository.user.impl.UserRepositoryImpl
-import com.ifmo.lowlevel.planningcalendar.model.handler.PlansHandler
+import com.ifmo.lowlevel.planningcalendar.ext.google.calendar.CalendarHandler
 import com.ifmo.lowlevel.planningcalendar.service.plan.ifc.PlanService
 import com.ifmo.lowlevel.planningcalendar.service.plan.impl.PlanServiceImpl
 import com.ifmo.lowlevel.planningcalendar.service.user.ifc.UserService
@@ -29,15 +29,7 @@ object ApplicationEnvironment {
         return propertiesByKey
     }
 
-    fun calendarHandler(): PlansHandler {
-        val setOfPlans = PlanRepositoryImpl
-            .findAll()
-            .stream()
-            .collect(Collectors.toSet())
-        return PlansHandler(HashSet(setOfPlans))
-    }
-
-    fun planService(): PlanService = PlanServiceImpl(calendarHandler(), PlanRepositoryImpl)
+    fun planService(): PlanService = PlanServiceImpl(CalendarHandler, PlanRepositoryImpl)
 
     fun userService(): UserService = UserServiceImpl(UserRepositoryImpl)
 }

@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 
 class Plan private constructor(
     private val goal: String, private val completed: Boolean, private val description: String,
-    private val deadline: LocalDateTime?, private val planState: PlanState
+    private val deadline: LocalDateTime?, private val planState: PlanState, private val userLogin: String
 ) {
 
     fun getGoal() = goal
@@ -12,13 +12,14 @@ class Plan private constructor(
     fun getDeadline() = deadline
     fun isCompleted() = completed
     fun getPlanState() = planState
-
+    fun getUserLogin() = userLogin
     companion object Builder {
         private var goal = ""
         private var completed = false
         private var description = ""
         private var deadline: LocalDateTime? = null
         private var planState = PlanState.DAY
+        private var userLogin = ""
 
         fun goal(goal: String) : Builder{
             this.goal = goal
@@ -45,8 +46,13 @@ class Plan private constructor(
             return this
         }
 
+        fun userLogin(userLogin: String): Builder {
+            this.userLogin = userLogin
+            return this
+        }
+
         fun build() : Plan{
-            return Plan(goal, completed, description, deadline, planState)
+            return Plan(goal, completed, description, deadline, planState, userLogin)
         }
     }
 

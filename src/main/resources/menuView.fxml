@@ -1,13 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import se.alipsa.ymp.YearMonthPickerCombo?>
+<?import tornadofx.control.DateTimePicker?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="487.0" prefWidth="882.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="353.0" layoutY="26.0" prefHeight="80.0" prefWidth="129.0" style="-fx-font-family: Courier new;" text="Planning" textFill="WHITE">
+         <font>
+            <Font name="Courier New" size="31.0" />
+         </font>
+      </Label>
+      <Label layoutX="482.0" layoutY="26.0" prefHeight="80.0" prefWidth="149.0" style="-fx-font-family: Courier new;" text="Calendar" textFill="DARKGRAY">
+         <font>
+            <Font name="Courier New" size="31.0" />
+         </font>
+      </Label>
+      <VBox layoutY="80.0" prefHeight="562.0" prefWidth="199.0" style="-fx-background-color: grey;">
+         <children>
+            <Label fx:id="menu" alignment="CENTER" prefHeight="73.0" prefWidth="204.0" style="-fx-font-family: Courier new; -fx-background-color: black; -fx-border-color: grey;" text="Меню" textFill="RED">
+               <font>
+                  <Font name="Courier New" size="26.0" />
+               </font>
+            </Label>
+            <Button fx:id="calendar" mnemonicParsing="false" onAction="#calendar" prefHeight="91.0" prefWidth="201.0" style="-fx-background-color: grey; -fx-border-color: grey;" text="Календарь" textFill="WHITE">
+               <font>
+                  <Font name="Courier New" size="26.0" />
+               </font>
+            </Button>
+            <Button fx:id="plans" mnemonicParsing="false" onAction="#plans" prefHeight="89.0" prefWidth="201.0" style="-fx-background-color: grey; -fx-border-color: grey;" text="Планы" textFill="WHITE">
+               <font>
+                  <Font name="Courier New" size="26.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Label layoutX="240.0" layoutY="155.0" prefHeight="89.0" prefWidth="252.0" style="-fx-font-family: Courier new;" text="Добавить план:" textFill="WHITE">
+         <font>
+            <Font name="Courier New" size="31.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="typePicker" layoutX="492.0" layoutY="449.0" prefWidth="150.0" />
+      <TextField fx:id="goal" layoutX="492.0" layoutY="187.0" promptText="goal" />
+      <TextField fx:id="description" layoutX="492.0" layoutY="257.0" prefHeight="64.0" prefWidth="149.0" promptText="description" />
+      <YearMonthPickerCombo fx:id="yearMonthPicker" editable="true" layoutX="493.0" layoutY="378.0" prefHeight="25.0" prefWidth="150.0" visible="false" />
+      <ChoiceBox fx:id="yearPicker" layoutX="492.0" layoutY="378.0" prefWidth="150.0" visible="false" />
+      <Button fx:id="send" layoutX="522.0" layoutY="524.0" mnemonicParsing="false" onAction="#send" text="Добавить" />
+      <DateTimePicker fx:id="datePicker" layoutX="486.0" layoutY="378.0" prefHeight="25.0" prefWidth="150.0" promptText="deadline" />
+   </children>
 </AnchorPane>

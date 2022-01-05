@@ -22,11 +22,11 @@
       </Label>
       <VBox layoutY="80.0" prefHeight="562.0" prefWidth="199.0" style="-fx-background-color: grey;">
          <children>
-            <Label fx:id="menu" alignment="CENTER" prefHeight="73.0" prefWidth="204.0" style="-fx-font-family: Courier new; -fx-background-color: grey; -fx-border-color: grey;" text="Меню" textFill="WHITE">
+            <Button fx:id="rightButton1711" mnemonicParsing="false" onAction="#menu" prefHeight="89.0" prefWidth="201.0" style="-fx-background-color: grey; -fx-border-color: grey;" text="Меню" textFill="WHITE">
                <font>
                   <Font name="Courier New" size="26.0" />
                </font>
-            </Label>
+            </Button>
             <Button fx:id="rightButton17" mnemonicParsing="false" prefHeight="91.0" prefWidth="201.0" style="-fx-background-color: black; -fx-border-color: grey;" text="Календарь" textFill="RED">
                <font>
                   <Font name="Courier New" size="26.0" />
@@ -319,17 +319,17 @@
             </VBox>
          </buttons>
       </ButtonBar>
-      <Button fx:id="buttonLeft" layoutX="172.0" layoutY="9.0" mnemonicParsing="false" onAction="#left" prefHeight="51.0" prefWidth="129.0" style="-fx-background-color: black;" text="Left" textFill="DARKGRAY">
+      <Button fx:id="buttonLeft" layoutX="172.0" layoutY="9.0" mnemonicParsing="false" onAction="#left" prefHeight="51.0" prefWidth="129.0" style="-fx-background-color: black;" text="Prev" textFill="DARKGRAY">
          <font>
             <Font name="Courier New" size="33.0" />
          </font>
       </Button>
-      <Button fx:id="buttonRight" layoutX="594.0" layoutY="9.0" mnemonicParsing="false" onAction="#right" prefHeight="62.0" prefWidth="149.0" style="-fx-background-color: black;" text="Right" textFill="DARKGRAY">
+      <Button fx:id="buttonRight" layoutX="594.0" layoutY="9.0" mnemonicParsing="false" onAction="#right" prefHeight="62.0" prefWidth="149.0" style="-fx-background-color: black;" text="Next" textFill="DARKGRAY">
          <font>
             <Font name="Courier New" size="33.0" />
          </font>
       </Button>
-      <Label fx:id="dateLabel" layoutX="105.0" layoutY="7.0" prefHeight="80.0" prefWidth="129.0" style="-fx-font-family: Courier new;" textFill="WHITE">
+      <Label fx:id="dateLabel" layoutX="35.0" prefHeight="80.0" prefWidth="129.0" style="-fx-font-family: Courier new;" textFill="WHITE">
          <font>
             <Font name="Courier New" size="31.0" />
          </font>

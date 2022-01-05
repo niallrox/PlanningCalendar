@@ -14,42 +14,30 @@ import java.sql.SQLException
 
 object UserRepositoryImpl : UserRepository {
 
-    private val logger = KotlinLogging.logger {}
-
     private val connectionPool = ConnectionPoolHandler.getPool()
 
     override fun hashByLogin(login: String): String {
         val connection = connectionPool!!.getConnection()
-        return try {
-            val statement = connection!!.createStatement()
-            val set = statement.executeQuery(
-                QueryUtils.select(
-                    User::class,
-                    "password"
-                )
+        val statement = connection!!.createStatement()
+        val set = statement.executeQuery(
+            QueryUtils.select(
+                User::class,
+                "password"
             )
-            set.next()
-            connectionPool.releaseConnection(connection)
-            set.getString("password")
-        } catch (e: SQLException) {
-            logger.error { "Something went wrong with statement. Error: $e" }
-            ""
-        }
+        )
+        set.next()
+        connectionPool.releaseConnection(connection)
+        return set.getString("password")
     }
 
     override fun register(login: String, password: String): Boolean {
         val connection = connectionPool!!.getConnection()
-        return try {
-            val prepareUserStatement = prepareUserStatement(connection, login, password)
-            prepareUserStatement.executeUpdate()
-            true
-        } catch (e: SQLException) {
-            logger.error { "Something went wrong with statement. Error: $e" }
-            false
-        }
+        val prepareUserStatement = prepareUserStatement(connection, login, password)
+        prepareUserStatement.executeUpdate()
+        return true
     }
 
-    private fun prepareUserStatement(connection: Connection?, login: String, password: String) : PreparedStatement {
+    private fun prepareUserStatement(connection: Connection?, login: String, password: String): PreparedStatement {
         val prepareStatement = connection!!.prepareStatement(QueryUtils.insert(User::class))
         prepareStatement.setString(1, login)
         prepareStatement.setString(2, password)

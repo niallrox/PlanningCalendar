@@ -16,14 +16,12 @@ class ConnectionPoolImpl private constructor(list: MutableList<Connection?>) : C
 
        private const val INITIAL_POOL_SIZE = 10
 
-       @Throws(SQLException::class)
        private fun createConnection(
            url: String, user: String, password: String
        ): Connection {
            return DriverManager.getConnection(url, user, password)
        }
 
-       @Throws(SQLException::class)
        fun create(
            url: String, user: String,
            password: String

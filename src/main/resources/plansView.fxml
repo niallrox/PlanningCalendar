@@ -23,11 +23,11 @@
       </Label>
       <VBox layoutY="80.0" prefHeight="562.0" prefWidth="199.0" style="-fx-background-color: grey;">
          <children>
-            <Label fx:id="menu" alignment="CENTER" prefHeight="73.0" prefWidth="204.0" style="-fx-font-family: Courier new; -fx-background-color: grey; -fx-border-color: grey;" text="Меню" textFill="WHITE">
+            <Button fx:id="rightButton1711" mnemonicParsing="false" onAction="#menu" prefHeight="89.0" prefWidth="201.0" style="-fx-background-color: grey; -fx-border-color: grey;" text="Меню" textFill="WHITE">
                <font>
                   <Font name="Courier New" size="26.0" />
                </font>
-            </Label>
+            </Button>
             <Button fx:id="rightButton17" mnemonicParsing="false" onAction="#calendar" prefHeight="91.0" prefWidth="201.0" style="-fx-background-color: grey; -fx-border-color: grey;" text="Календарь" textFill="WHITE">
                <font>
                   <Font name="Courier New" size="26.0" />

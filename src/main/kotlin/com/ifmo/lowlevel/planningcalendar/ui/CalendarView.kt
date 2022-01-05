@@ -63,6 +63,10 @@ class CalendarView : View() {
         replaceWith<PlansView>()
     }
 
+    fun menu() {
+        replaceWith<MenuView>()
+    }
+
     private fun buttonEventHandler(): EventHandler<ActionEvent> {
         return EventHandler<ActionEvent> { event ->
             val bEvent = event.target as Button

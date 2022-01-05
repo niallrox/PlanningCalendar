@@ -1,5 +1,7 @@
 package com.ifmo.lowlevel.planningcalendar.utils
 
+import java.lang.reflect.Modifier
+import java.util.*
 import java.util.stream.Collectors
 import kotlin.reflect.KClass
 
@@ -41,7 +43,9 @@ object QueryUtils {
     }
 
     private fun <E : Any> getQuestsFromClass(clazz: KClass<E>): String {
-        val size = Class.forName(clazz.qualifiedName).declaredFields.size
+        val size = Arrays.stream(Class.forName(clazz.qualifiedName).declaredFields)
+            .filter { f -> !Modifier.isStatic(f.modifiers) }
+            .count()
         val quests = StringBuilder()
         for (i in 0 until size) {
             quests.append("?, ")
